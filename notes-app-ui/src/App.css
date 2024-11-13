@@ -5,7 +5,11 @@ body {
 
 .app-container {
   grid-template-columns: 1fr;
+  /* padding-top: 4rem; Adjust for fixed navbar */
+  margin: auto;
+  border: 1px solid black;
 }
+
 
 @media (min-width: 600px) {
   .app-container {
@@ -15,7 +19,7 @@ body {
   }
 }
 
-.notes-grid {
+/* .notes-grid {
   display: grid;
   grid-template-columns: repeat(
     auto-fill,
@@ -47,7 +51,7 @@ body {
   border: none;
   cursor: pointer;
   max-width: fit-content;
-}
+} */
 
 h2 {
   margin: 0;
@@ -56,29 +60,52 @@ h2 {
 .note-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px; /* Reduced gap for better compactness */
+  max-width: 500px; /* Restricts the width of the form */
+  margin: 50px auto; /* Centers the form on the page */
+  padding: 20px; /* Adds inner spacing for better aesthetics */
+  background-color: #f9f9f9; /* Light background for contrast */
+  border: 1px solid #ddd; /* Subtle border */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
-textarea,
-input {
-  border-radius: 5px;
-  border: 1px solid black;
-  padding: 10px;
-  font-size: 16px;
+.note-form input,
+.note-form textarea,
+.note-form button {
+  font-size: 1rem; /* Consistent font size */
+  padding: 10px; /* Inner padding for better click/tap targets */
+  border: 1px solid #ccc; /* Subtle border for inputs */
+  border-radius: 5px; /* Rounded edges */
+  font-family: 'Arial', sans-serif; /* Clean font */
+}
+
+.note-form input:focus,
+.note-form textarea:focus {
+  outline: none; /* Removes default focus outline */
+  border-color: #007bff; /* Highlight border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Subtle glow */
 }
 
 .note-form button {
-  border-radius: 5px;
-  background-color: rgb(64, 154, 184);
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  color: white;
+  background-color: #007bff; /* Button background */
+  color: white; /* Button text color */
+  border: none; /* Removes default border */
+  cursor: pointer; /* Changes cursor to pointer */
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 .note-form button:hover {
-  background-color: rgb(106, 175, 198);
-  cursor: pointer;
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.note-form button:active {
+  background-color: #003f7f; /* Even darker shade on click */
+}
+
+.note-form textarea {
+  resize: vertical; /* Allows vertical resizing only */
+  min-height: 100px; /* Ensures enough height for text */
 }
 
 .edit-buttons {
@@ -94,4 +121,156 @@ input {
 .edit-buttons button:last-of-type {
   background-color: rgb(220, 89, 89);
   color: white;
+}
+
+
+
+/* Deleted Notes Toggle */
+.deleted-notes {
+  margin-top: 1.5rem;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.toggle-button {
+  position: fixed; /* Keeps the button at the same position on the screen */
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  padding: 10px 20px; /* Adds space inside the button */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  font-size: 1rem; /* Font size for readability */
+  font-weight: bold; /* Makes the text bold */
+  border: none; /* Removes default border */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  cursor: pointer; /* Changes the cursor to a pointer */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  z-index: 1000; /* Ensures it's above other content */
+}
+
+.toggle-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly enlarges the button */
+}
+
+.toggle-button:active {
+  background-color: #003f7f; /* Even darker blue on click */
+  transform: scale(0.95); /* Shrinks the button slightly on click */
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Slightly wider cards for better visuals */
+  grid-auto-rows: auto; /* Adjust row height based on content */
+  gap: 25px; /* Increased spacing for a more spacious layout */
+  padding: 20px; /* Adds padding around the grid */
+  background-color: #f4f4f9; /* Subtle background color for the grid */
+  border-radius: 10px
+}
+
+.note-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content is well-aligned */
+  border: 1px solid #e0e0e0; /* Softer border color for elegance */
+  padding: 15px; /* More padding for a comfortable layout */
+  border-radius: 10px; /* Larger rounding for a modern look */
+  background-color: #ffffff; /* Clean white background for contrast */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+  cursor: pointer;
+}
+
+.note-item:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+.note-item h3 {
+  font-size: 1.25rem; /* Slightly larger title font */
+  font-weight: bold;
+  margin-bottom: 10px; /* Space between title and content */
+  color: #333; /* Dark text for readability */
+}
+
+.note-item p {
+  font-size: 1rem; /* Standard text size */
+  color: #555; /* Softer text color for content */
+  flex-grow: 1; /* Allows description to take up space */
+}
+
+.note-item footer {
+  margin-top: 10px; /* Adds space above footer */
+  text-align: right; /* Aligns footer content */
+  font-size: 0.9rem; /* Smaller font for footer */
+  color: #777; /* Subtle footer text color */
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between; /* Adjusted for balance */
+  align-items: center; /* Centers items vertically */
+  margin-bottom: 20px; /* Adds space below header */
+}
+
+.notes-header h2 {
+  font-size: 1.5rem; /* Larger header */
+  color: #333;
+  font-weight: bold;
+}
+
+.notes-header button {
+  font-size: 1rem;
+  color: #007bff; /* Subtle blue for buttons */
+  background: none;
+  border: 1px solid #007bff; /* Border matches text */
+  border-radius: 5px;
+  padding: 8px 16px; /* Comfortable padding */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.notes-header button:hover {
+  background-color: #007bff; /* Blue background on hover */
+  color: #fff; /* White text on hover */
+}
+
+.restore-btn {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.restore-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336; /* Red */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+h1 {
+  text-align: center;
 }

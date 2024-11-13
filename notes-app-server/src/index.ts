@@ -8,11 +8,25 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
-app.get("/api/notes", async (req, res) => {
-  const notes = await prisma.note.findMany();
+// app.get("/api/notes", async (req, res) => {
+//   const notes = await prisma.note.findMany();
 
-  res.json(notes);
+//   res.json(notes);
+// });
+
+app.get("/api/notes", async (req, res) => {
+  try {
+    const notes = await prisma.note.findMany({
+      where: {
+        status: 'Active',
+      },
+    });
+    res.json(notes);
+  } catch (error) {
+    res.status(500).send("Oops, something went wrong");
+  }
 });
+
 
 app.post("/api/notes", async (req, res) => {
   const { title, content } = req.body;
@@ -54,6 +68,23 @@ app.put("/api/notes/:id", async (req, res) => {
   }
 });
 
+// app.delete("/api/notes/:id", async (req, res) => {
+//   const id = parseInt(req.params.id);
+
+//   if (!id || isNaN(id)) {
+//     return res.status(400).send("ID field required");
+//   }
+
+//   try {
+//     await prisma.note.delete({
+//       where: { id },
+//     });
+//     res.status(204).send();
+//   } catch (error) {
+//     res.status(500).send("oops, something went wrong");
+//   }
+// });
+
 app.delete("/api/notes/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -62,15 +93,51 @@ app.delete("/api/notes/:id", async (req, res) => {
   }
 
   try {
-    await prisma.note.delete({
+    await prisma.note.update({
       where: { id },
+      data: { status: "Inactive" },
     });
     res.status(204).send();
   } catch (error) {
-    res.status(500).send("oops, something went wrong");
+    res.status(500).send("Oops, something went wrong");
   }
 });
 
-app.listen(5000, () => {
-  console.log("server running on localhost:5000");
+app.get("/api/notes/deleted", async (req, res) => {
+  try {
+    const deletedNotes = await prisma.note.findMany({
+      where: {
+        status: "Inactive",
+      },
+    });
+    res.json(deletedNotes);
+  } catch (error) {
+    res.status(500).send("Oops, something went wrong");
+  }
+});
+
+// Restore a deleted note by setting its status back to 'Active'
+app.put("/api/notes/restore/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (!id || isNaN(id)) {
+    return res.status(400).send("ID field required and must be a valid number");
+  }
+
+  try {
+    const restoredNote = await prisma.note.update({
+      where: { id },
+      data: { status: "Active" },
+    });
+
+    res.json(restoredNote);
+  } catch (error) {
+    res.status(500).send("Oops, something went wrong");
+  }
+});
+
+
+
+app.listen(5050, () => {
+  console.log("server running on localhost:5050");
 });
